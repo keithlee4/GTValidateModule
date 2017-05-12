@@ -22,8 +22,8 @@ public protocol GTValidableViewInterface: NSObjectProtocol {
     func reload()
     func clearView()
     
-    var errorBGColor: UIColor { get }
-    var successBGColor: UIColor { get }
+//    var errorBGColor: UIColor { get }
+//    var successBGColor: UIColor { get }
     
     func handleError(err: Error?)
     func handleSuccess()
@@ -31,23 +31,4 @@ public protocol GTValidableViewInterface: NSObjectProtocol {
     //Var to use when input view is not keyboard type.
     var datePicker: UIDatePicker? { get set }
     var dataPicker: UIPickerView? { get set }
-}
-
-extension GTValidableViewInterface {
-    
-    var successBGColor: UIColor { return UIColor.white }
-    var errorBGColor: UIColor { return UIColor.red.withAlphaComponent(0.8) }
-    
-    func handleSuccess() {
-        if let view = self as? UIView {
-            view.backgroundColor = successBGColor
-        }
-    }
-    
-    func handleError(err: Error?) {
-        if let view = self as? UIView {
-            view.backgroundColor = errorBGColor
-//            view.shake()
-        }
-    }
 }

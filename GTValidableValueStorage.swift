@@ -50,16 +50,7 @@ open class GTValidableValueStorage {
                 self.isContentValid = true
             }else{
                 //如果由系統自動判定輸入是否正確，在picker的狀態下需要藉由nullable和輸入資料共同判斷正確性。
-                //picker的nullable僅允許在input count = 0 && nullable = true 的前提下。
-                if case .picker(let values) = self.validateInfo.keyboardType! {
-                    if self.validateInfo.nullable! {
-                        self.isContentValid = (values.count == 0)
-                    }else{
-                        self.isContentValid = false
-                    }
-                }else{
-                    self.isContentValid = self.validateInfo.nullable
-                }
+                self.isContentValid = self.validateInfo.nullable
             }
         }
     }
@@ -96,14 +87,7 @@ open class GTValidableValueStorage {
     func getValue() -> Any? {
         switch self.validateInfo.keyboardType! {
         case .basic, .decimal, .number:
-            if let ph = self.validateInfo.placeholderText,
-                let t = self.value,
-                ph == t,
-                containerType! == .textView {
-                return nil
-            }else{
-                return self.value
-            }
+            return self.value
             
         case .picker(let values):
             guard let _ = self.containedView else{

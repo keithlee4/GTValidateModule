@@ -185,6 +185,7 @@ class GTInfoValidableTextField: KLTextField, GTValidableViewInterface {
         if case let GTKeyboardType.picker(pickerValues) = self.valueStorage.validateInfo.keyboardType!{
             
             //if picker has empty , won`t process
+            //pickerOnFirstRow == true, mean done action is fired.
             if pickerOnFirstRow == true && pickerValues.count > 0 {
                 self.text = pickerValues[0].pickerSelectContentTitle
                 self.valueStorage.value = self.text
@@ -196,20 +197,16 @@ class GTInfoValidableTextField: KLTextField, GTValidableViewInterface {
     }
     
     func textChanged(sedner: UITextField){
-        if let t = sedner.text {
-            self.valueStorage.value = t
-        }else{
-            self.valueStorage.value = nil
-        }
+        self.valueStorage.value = sedner.text ?? nil
     }
     
     
     //MARK: Result Handle
     func handleSuccess() {
-        backgroundColor = successBGColor
-        if let errLabel = errorLabel {
-            errLabel.isHidden = true
-        }
+//        backgroundColor = successBGColor
+//        if let errLabel = errorLabel {
+//            errLabel.isHidden = true
+//        }
     }
     
     
@@ -321,9 +318,6 @@ extension GTInfoValidableTextField: UITextFieldDelegate {
                 }
             }
         }
-        
-        
-
         
         self.valueStorage.checkValidity { }
         

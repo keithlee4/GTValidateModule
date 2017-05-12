@@ -36,50 +36,6 @@ open class GTValidateInfo: NSObject, GTValidateInfoInterface {
     
     var validateDelegate: GTInfoValidateInfoDelegate?
     
-    init(_ contentsDictionary:NSDictionary){
-        super.init()
-        
-        let name = contentsDictionary[kGTValidateInfoDictionaryKeyName] as! String
-        let placeholder = contentsDictionary[kGTValidateInfoDictionaryKeyPlcaeholderText] as! String
-        let regex = contentsDictionary[kGTValidateInfoDictionaryKeyRegex] as? String
-        let fieldKey = contentsDictionary[kGTValidateInfoDictionaryKeyFieldKey] as! String
-        let secured = contentsDictionary[kGTValidateInfoDictionaryKeySecured] as! Bool
-        let nullable = contentsDictionary[kGTValidateInfoDictionaryKeyNullable] as! Bool
-
-        
-        let values = contentsDictionary[kGTValidateInfoDictionaryKeyPickerValues] as! NSArray
-        let pickerValues: [String]? = values.count > 0 ? Array.init(values) as? [String] : nil
-        
-        let type = contentsDictionary[kGTValidateInfoDictionaryKeyKeyboardType] as! String
-        
-        var dateFormat: String?
-        if let df = contentsDictionary[kGTValidateInfoDictionaryKeyDateFormat] as? NSString, df.length > 0 {
-            dateFormat = df as String
-        }
-        
-        var dateInfo: GTValidateDateInfo?
-        if let df = dateFormat {
-            dateInfo = GTValidateDateInfo.init(df, modeName: type)
-        }
-        
-        
-        let keyboardType = GTKeyboardType.type(with: type, dateInfo:dateInfo, pickerValues: pickerValues) ?? .basic
-        
-//        
-//        let containerTypeString = contentsDictionary[kGTValidateInfoDictionaryKeyContainerType] as! String
-//        let containerType = ContainerType.type(of: containerTypeString)
-//        let containerInfo = GTValidateContainerInfo(cellType: containerType)
-//        self.containerInfo = containerInfo
-        
-        self.name = name
-        self.placeholderText = placeholder
-        self.regex = regex
-        self.keyboardType = keyboardType
-        self.fieldKey = fieldKey
-        self.secured = secured
-        self.nullable = nullable
-    }
-    
     init(_ validateStruct: GTValidateStruct) {
         super.init()
         
@@ -91,7 +47,6 @@ open class GTValidateInfo: NSObject, GTValidateInfoInterface {
         let nullable = validateStruct.isNullable
         let keyboardType = validateStruct.keyboard
     
-        
         self.name = name
         self.placeholderText = placeholder
         self.regex = regex
@@ -107,34 +62,31 @@ open class GTValidateInfo: NSObject, GTValidateInfoInterface {
             validateDelegate.validateInfoWillStartCheckingValidity(self)
         }
         
-        if let t = contentText, let ph = placeholderText {
-            guard t != ph else{
-                if let validateDelegate = self.validateDelegate {
-                    validateDelegate.validateInfoDidFinishCheckingValidity(self, withContent: contentText, result:false)
-                }
-                
-                completion(false)
-                return
-            }
-        }
+//        if let t = contentText, let ph = placeholderText {
+//            guard t != ph else{
+//                if let validateDelegate = self.validateDelegate {
+//                    validateDelegate.validateInfoDidFinishCheckingValidity(self, withContent: contentText, result:false)
+//                }
+//                
+//                completion(false)
+//                return
+//            }
+//        }
         
         let regexCheckResult = self.checkRegexValidity(content: contentText)
         
         guard regexCheckResult == true else {
             print("Warning: TextField Input Regex Check is False, field: \(self.fieldKey)")
-            if let validateDelegate = self.validateDelegate {
-                validateDelegate.validateInfoDidFinishCheckingValidity(self, withContent: contentText, result:false)
-            }
             
+            validateDelegate?.validateInfoDidFinishCheckingValidity(self, withContent: contentText, result:false)
+        
             completion(false)
             return
         }
         
         self.checkPrecheckValidity(with: contentText) { (precheckResult) in
-            if let validateDelegate = self.validateDelegate {
-                validateDelegate.validateInfoDidFinishCheckingValidity(self, withContent: contentText, result: precheckResult && regexCheckResult)
-            }
             
+            self.validateDelegate?.validateInfoDidFinishCheckingValidity(self, withContent: contentText, result: precheckResult && regexCheckResult)
             completion(precheckResult && regexCheckResult)
         }
     }
@@ -164,20 +116,16 @@ open class GTValidateInfo: NSObject, GTValidateInfoInterface {
     }
     
     func checkPrecheckValidity(with contentText: String?, completion: @escaping (Bool) -> Void) {
-        var checkLogic : ((@escaping (Bool) -> Void) -> Void)? = nil
-        if let validateDelegate = self.validateDelegate {
-            checkLogic = validateDelegate.validateInfoPrecheckLogic(self, contentText: contentText)
-        }
         
         //如果需入內容為nil, 回傳result = self.nullable
-        guard let _ = contentText else{
+        guard contentText != nil else{
             completion(self.nullable)
             return
         }
         
-        
-        //如果沒有額外的檢查邏輯，回傳completion(true
-        guard let logic = checkLogic else {
+        //如果沒有額外的檢查邏輯，回傳completion(true)
+        guard let logic = validateDelegate?.validateInfoPrecheckLogic(self, contentText: contentText)
+            else {
             completion(true)
             return
         }
