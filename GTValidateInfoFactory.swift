@@ -117,34 +117,34 @@ class GTValueStorageFactory: NSObject {
 //    
 //    //MARK:  private
 //    
-//    //所有的container type在這裡都預設成textfield (最常見）
-//    fileprivate static func storage(with validateStruct: GTValidateStruct, defaultValue:String?, containerType: ContainerType = .textField) -> GTValidableValueStorage {
-//        let validateInfo = GTValidateInfo.init(validateStruct)
-//        let valueStorage = GTValidableValueStorage.init(with: validateInfo, value: defaultValue, containerType: containerType)
-//        
-//        return valueStorage
-//    }
-//    
+    //所有的container type在這裡都預設成textfield (最常見）
+    fileprivate static func storage(with validateStruct: GTValidateStruct, defaultValue:String?, containerType: ContainerType = .textField) -> GTValidableValueStorage {
+        let validateInfo = GTValidateInfo.init(validateStruct)
+        let valueStorage = GTValidableValueStorage.init(with: validateInfo, value: defaultValue, containerType: containerType)
+        
+        return valueStorage
+    }
+//
 //    
 //    //MARK: - STORAGE COMPONENTS
 //    //MARK: -
 //    //MARK: 註冊
 //    
 //    //MARK: User ID
-//    static func userID(defaultValue value: String? = nil, containerType: ContainerType = .textField) -> GTValidableValueStorage {
-//        let validStruct = GTValidateStruct.init(
-//            fieldKey: kGTValidateInfoFieldKeyUserID,
-//            name: LocalizationSource.main_user_name.localized,
-//            placeHolder: LocalizationSource.main_user_name.localized,
-//            regex: nil,
-//            keyboard: GTKeyboardType.basic,
-//            isSecured: false,
-//            isNullable: false
-//        )
-//        
-//        return storage(with: validStruct, defaultValue: value, containerType: containerType)
-//    }
-//    
+    static func userID(defaultValue value: String? = nil, containerType: ContainerType = .textField) -> GTValidableValueStorage {
+        let validStruct = GTValidateStruct.init(
+            fieldKey: kGTValidateInfoFieldKeyUserID,
+            name: "帳號",
+            placeHolder: "帳號",
+            regex: nil,
+            keyboard: GTKeyboardType.basic,
+            isSecured: false,
+            isNullable: false
+        )
+        
+        return storage(with: validStruct, defaultValue: value, containerType: containerType)
+    }
+//
 //    //MARK: System
 //    static func system(defaultValue value: String? = nil, containerType: ContainerType = .textField) -> GTValidableValueStorage {
 //        let validStruct = GTValidateStruct.init(

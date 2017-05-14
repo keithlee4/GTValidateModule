@@ -15,7 +15,7 @@ protocol GTValidateInfoInterface {
     var regex: String? { get set }
     var keyboardType: GTKeyboardType! { get set }
     
-    var validateDelegate: GTInfoValidateInfoDelegate? { get set }
+//    var validateDelegate: GTInfoValidateInfoDelegate? { get set }
     
     //Field Key: Use this value to define what kind of validate info it is.
     var fieldKey: String! { get set }

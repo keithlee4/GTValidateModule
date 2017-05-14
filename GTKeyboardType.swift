@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import RxSwift
+
 enum GTKeyboardType {
     case basic
     case number

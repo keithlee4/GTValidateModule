@@ -15,9 +15,7 @@ public protocol GTValidableViewInterface: NSObjectProtocol {
     
     var contentText: String? { get }
     
-    func configure(with valueStorage:GTValidableValueStorage,
-                   delegateTarget: GTInfoValidateInfoDelegate?,
-                   updateListener: GTValidableValueStorageUpdateListener?)
+    func configure(with valueStorage:GTValidableValueStorage)
     
     func reload()
     func clearView()
@@ -25,8 +23,6 @@ public protocol GTValidableViewInterface: NSObjectProtocol {
 //    var errorBGColor: UIColor { get }
 //    var successBGColor: UIColor { get }
     
-    func handleError(err: Error?)
-    func handleSuccess()
     
     //Var to use when input view is not keyboard type.
     var datePicker: UIDatePicker? { get set }
