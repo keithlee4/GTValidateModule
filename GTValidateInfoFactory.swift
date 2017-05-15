@@ -35,88 +35,10 @@ class GTValueStorageFactory: NSObject {
     //MARK: - PACKAGE
     //MARK: -
     
-    
-//    //MARK: 修改密碼 + 二級驗證
-//    typealias GTEditPasswordPackage = (oldPW: GTValidableValueStorage, lv2PW: GTValidableValueStorage, createNewPWPack: CreateNewPasswordPackage)
-//    
-//    static func editPasswordPack(containerType: ContainerType = .textField) -> GTEditPasswordPackage {
-//        return (
-//            oldPW: oldPassword(containerType:containerType),
-//            lv2PW: lv2Password(containerType:containerType),
-//            createNewPWPack: createNewPasswordPack(containerType: containerType)
-//        )
-//    }
-//    
-//    //MARK: 修改二級密碼
-//    typealias GTEditLv2PwPack = (oldLv2PW: GTValidableValueStorage, lv2PW: GTValidableValueStorage, lv2PWConfirm: GTValidableValueStorage)
-//    
-//    static func editLv2PwPack(containerType: ContainerType = .textField) -> GTEditLv2PwPack {
-//        return (
-//            oldLv2PW: oldLv2Password(containerType: containerType),
-//            lv2PW: lv2Password(containerType: containerType),
-//            lv2PWConfirm: lv2PasswordConfirm(containerType: containerType)
-//        )
-//    }
-//    
-//    //MARK: 重置二級密碼
-//    typealias GTResetLv2PWPack = (authCode: GTValidableValueStorage, lv2PW: GTValidableValueStorage, lv2PWConfirm: GTValidableValueStorage)
-//    
-//    static func resetLv2PWPack(containerType: ContainerType = .textField) -> GTResetLv2PWPack {
-//        return (
-//            authCode: authCode(containerType: containerType),
-//            lv2PW: lv2Password(containerType: containerType),
-//            lv2PWConfirm: lv2PasswordConfirm(containerType: containerType)
-//        )
-//    }
-//    
-//    //MARK: 新增密碼
-//    typealias CreateNewPasswordPackage = (pw: GTValidableValueStorage, pwConfirm: GTValidableValueStorage)
-//    
-//    static func createNewPasswordPack(containerType: ContainerType = .textField) -> CreateNewPasswordPackage {
-//        return (
-//            pw: password(containerType: containerType),
-//            pwConfirm: passwordConfirm(containerType: containerType)
-//        )
-//    }
-//    
-//    //MARK: 安置推薦人
-//    typealias GTRecommenderAndSettlerPackage = (rec: GTValidableValueStorage, set: GTValidableValueStorage)
-//    
-//    static func recommenderAndSettlerPack(containerType: ContainerType = .textField) -> GTRecommenderAndSettlerPackage {
-//        return (
-//            rec: recommender(containerType: containerType),
-//            set: settler(containerType: containerType)
-//        )
-//    }
-//    
-//    //MARK: 銀行帳號
-//    typealias GTBankAccountPackage = (nation:GTValidableValueStorage, bankName: GTValidableValueStorage, bankBranch: GTValidableValueStorage, bankAccount: GTValidableValueStorage, accountHolder: GTValidableValueStorage, swiftCode: GTValidableValueStorage)
-//    
-//    static func bankAccountPack(containerType: ContainerType = .textField) -> GTBankAccountPackage {
-//        return (
-//            nation: nation(containerType: containerType),
-//            bankName: bankName(containerType: containerType),
-//            bankBranch: bankBranch(containerType: containerType),
-//            bankAccount: bankAccount(containerType: containerType),
-//            accountHolder: bankAccountHolder(containerType: containerType),
-//            swiftCode: swiftCode(containerType: containerType)
-//        )
-//    }
-//    
-//    //MARK: 發送重消積分
-//    typealias GTSendRPPointsPackage = (commerceCollegeAccount: GTValidableValueStorage, email: GTValidableValueStorage, rpSentAmt: GTValidableValueStorage, tag: GTValidableValueStorage)
-//    
-//    static func sendRPPointsPack(containerType: ContainerType = .textField) -> GTSendRPPointsPackage {
-//        return (
-//            commerceCollegeAccount(containerType: containerType),
-//            email(containerType: containerType),
-//            rpSentAmt(containerType: containerType),
-//            tag(containerType: containerType)
-//        )
-//    }
-//    
-//    //MARK:  private
-//    
+    fileprivate static var moduleDefine: GTValidateModuleDefinable = GTValidateModuleDefine()
+    static func usingDefine(define: GTValidateModuleDefinable) {
+        moduleDefine = define
+    }
     //所有的container type在這裡都預設成textfield (最常見）
     fileprivate static func storage(with validateStruct: GTValidateStruct, defaultValue:String?, containerType: ContainerType = .textField) -> GTValidableValueStorage {
         let validateInfo = GTValidateInfo.init(validateStruct)
@@ -124,19 +46,20 @@ class GTValueStorageFactory: NSObject {
         
         return valueStorage
     }
-//
-//    
-//    //MARK: - STORAGE COMPONENTS
-//    //MARK: -
-//    //MARK: 註冊
-//    
-//    //MARK: User ID
+
+    
+    //MARK: - STORAGE COMPONENTS
+    //MARK: -
+    //MARK: 註冊
+    
+    //MARK: User ID
     static func userID(defaultValue value: String? = nil, containerType: ContainerType = .textField) -> GTValidableValueStorage {
+        let validType = GTValidateModuleConstant.userID
         let validStruct = GTValidateStruct.init(
-            fieldKey: kGTValidateInfoFieldKeyUserID,
-            name: "帳號",
-            placeHolder: "帳號",
-            regex: nil,
+            fieldKey: validType.fieldKey,
+            name: moduleDefine.name(for: validType),
+            placeHolder: moduleDefine.placeholder(for: validType),
+            regex: moduleDefine.regex(for: validType),
             keyboard: GTKeyboardType.basic,
             isSecured: false,
             isNullable: false
@@ -144,20 +67,85 @@ class GTValueStorageFactory: NSObject {
         
         return storage(with: validStruct, defaultValue: value, containerType: containerType)
     }
-//
-//    //MARK: System
-//    static func system(defaultValue value: String? = nil, containerType: ContainerType = .textField) -> GTValidableValueStorage {
-//        let validStruct = GTValidateStruct.init(
-//            fieldKey: kGTValidateInfoFieldKeySystem,
-//            name: LocalizationSource.reg_systems.localized,
-//            placeHolder: LocalizationSource.g_please_choose.localized,
-//            regex: nil,
-//            keyboard: GTKeyboardType.picker([]),
-//            isSecured: false,
-//            isNullable: false
-//        )
-//        
-//        return storage(with: validStruct, defaultValue: value, containerType: containerType)
-//    }
+    
+    //MARK: Password
+    static func pwd(defaultValue value: String? = nil, containerType: ContainerType = .textField) -> GTValidableValueStorage {
+        let validType = GTValidateModuleConstant.pwd
+        let validStruct = GTValidateStruct.init(
+            fieldKey: validType.fieldKey,
+            name: moduleDefine.name(for: validType),
+            placeHolder: moduleDefine.placeholder(for: validType),
+            regex: moduleDefine.regex(for: validType),
+            keyboard: GTKeyboardType.basic,
+            isSecured: false,
+            isNullable: false
+        )
+        
+        return storage(with: validStruct, defaultValue: value, containerType: containerType)
+    }
+    
+    //MARK: Confirm Password
+    static func confirmPwd(defaultValue value: String? = nil, containerType: ContainerType = .textField) -> GTValidableValueStorage {
+        let validType = GTValidateModuleConstant.confirmPassword
+        let validStruct = GTValidateStruct.init(
+            fieldKey: validType.fieldKey,
+            name: moduleDefine.name(for: validType),
+            placeHolder: moduleDefine.placeholder(for: validType),
+            regex: moduleDefine.regex(for: validType),
+            keyboard: GTKeyboardType.basic,
+            isSecured: false,
+            isNullable: false
+        )
+        
+        return storage(with: validStruct, defaultValue: value, containerType: containerType)
+    }
+    
+    //MARK: Mail
+    static func email(defaultValue value: String? = nil, containerType: ContainerType = .textField) -> GTValidableValueStorage {
+        let validType = GTValidateModuleConstant.email
+        let validStruct = GTValidateStruct.init(
+            fieldKey: validType.fieldKey,
+            name: moduleDefine.name(for: validType),
+            placeHolder: moduleDefine.placeholder(for: validType),
+            regex: moduleDefine.regex(for: validType),
+            keyboard: GTKeyboardType.basic,
+            isSecured: false,
+            isNullable: false
+        )
+        
+        return storage(with: validStruct, defaultValue: value, containerType: containerType)
+    }
+    
+    //MARK: recommender
+    static func recommender(defaultValue value: String? = nil, containerType: ContainerType = .textField) -> GTValidableValueStorage {
+        let validType = GTValidateModuleConstant.recommenderAccount
+        let validStruct = GTValidateStruct.init(
+            fieldKey: validType.fieldKey,
+            name: moduleDefine.name(for: validType),
+            placeHolder: moduleDefine.placeholder(for: validType),
+            regex: moduleDefine.regex(for: validType),
+            keyboard: GTKeyboardType.basic,
+            isSecured: false,
+            isNullable: false
+        )
+        
+        return storage(with: validStruct, defaultValue: value, containerType: containerType)
+    }
+    
+    //MARK: settler
+    static func settler(defaultValue value: String? = nil, containerType: ContainerType = .textField) -> GTValidableValueStorage {
+        let validType = GTValidateModuleConstant.settlerAccount
+        let validStruct = GTValidateStruct.init(
+            fieldKey: validType.fieldKey,
+            name: moduleDefine.name(for: validType),
+            placeHolder: moduleDefine.placeholder(for: validType),
+            regex: moduleDefine.regex(for: validType),
+            keyboard: GTKeyboardType.basic,
+            isSecured: false,
+            isNullable: false
+        )
+        
+        return storage(with: validStruct, defaultValue: value, containerType: containerType)
+    }
     
 }
