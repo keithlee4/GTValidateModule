@@ -148,4 +148,19 @@ class GTValueStorageFactory: NSObject {
         return storage(with: validStruct, defaultValue: value, containerType: containerType)
     }
     
+    //MARK: Auth Code
+    static func authCode(defaultValue value: String? = nil, containerType: ContainerType = .textField) -> GTValidableValueStorage {
+        let validType = GTValidateModuleConstant.authCode
+        let validStruct = GTValidateStruct.init(
+            fieldKey: validType.fieldKey,
+            name: moduleDefine.name(for: validType),
+            placeHolder: moduleDefine.placeholder(for: validType),
+            regex: moduleDefine.regex(for: validType),
+            keyboard: GTKeyboardType.basic,
+            isSecured: false,
+            isNullable: false
+        )
+        
+        return storage(with: validStruct, defaultValue: value, containerType: containerType)
+    }
 }

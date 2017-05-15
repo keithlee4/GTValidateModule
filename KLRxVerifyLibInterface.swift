@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 
+//This might only support verify case, not equality
 protocol KLRxVerifyLibInterface {
     func verify(storage: GTValidableValueStorage) -> Observable<GTValidableValueStorage.ContentValidityResult>
 }

@@ -46,7 +46,7 @@ open class GTValidableValueStorage {
         }
     }
     
-    var verifyLogic: GTValueStorageValidator.Logic?
+    var verifyLogics: [GTValueStorageValidator.Logic]?
     
     fileprivate var tempOldValue: String? = nil
     fileprivate var disposeBag = DisposeBag.init()
@@ -128,13 +128,30 @@ open class GTValidableValueStorage {
         .flatMap ({ (validResult) -> Observable<ContentValidityResult> in
             switch validResult {
             case .valid:
-                if let logic = self.verifyLogic {
-                    let logicCheck = GTValueStorageValidator.check(logic: logic)
-                    let mapResult = logicCheck.map({ (checkResult) -> ContentValidityResult  in
-                        return checkResult
-                    })
+                if let logics = self.verifyLogics, logics.count > 0 {
+                    var logicFlow: Observable<ContentValidityResult>?
+                    //Binding all logics to an obersver flow, will return first encounter invalid result.
+                    for logic in logics {
+                        let logicCheck = GTValueStorageValidator.check(logic: logic)
+                        let mapResult = logicCheck.map({ (checkResult) -> ContentValidityResult  in
+                            return checkResult
+                        })
+                        
+                        if let flow = logicFlow {
+                            logicFlow = flow.flatMap({ result -> Observable<ContentValidityResult> in
+                                switch result {
+                                case .valid:
+                                    return mapResult
+                                case .invalid:
+                                    return Observable.just(result)
+                                }
+                            })
+                        }else {
+                            logicFlow = mapResult
+                        }
+                    }
                     
-                    return mapResult
+                    return logicFlow!
                 }else {
                     return Observable.just(ContentValidityResult.valid)
                 }
