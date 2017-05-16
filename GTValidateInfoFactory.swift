@@ -35,12 +35,12 @@ class GTValueStorageFactory: NSObject {
     //MARK: - PACKAGE
     //MARK: -
     
-    fileprivate static var moduleDefine: GTValidateModuleDefinable = GTValidateModuleDefine()
+    static var moduleDefine: GTValidateModuleDefinable = GTValidateModuleDefine()
     static func usingDefine(define: GTValidateModuleDefinable) {
         moduleDefine = define
     }
     //所有的container type在這裡都預設成textfield (最常見）
-    fileprivate static func storage(with validateStruct: GTValidateStruct, defaultValue:String?, containerType: ContainerType = .textField) -> GTValidableValueStorage {
+    static func storage(with validateStruct: GTValidateStruct, defaultValue:String?, containerType: ContainerType = .textField) -> GTValidableValueStorage {
         let validateInfo = GTValidateInfo.init(validateStruct)
         let valueStorage = GTValidableValueStorage.init(with: validateInfo, value: defaultValue, containerType: containerType)
         

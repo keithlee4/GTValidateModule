@@ -15,6 +15,7 @@ enum GTValidateModuleConstant: String {
     case recommenderAccount = "RecommenderAccount"
     case settlerAccount = "SettlerAccount"
     case authCode = "AuthCode"
+    case legSide = "LegSide"
 //    case phoneNationCode = "PhoneNationCode"
 //    case phone = "Phone"
 //    case oldPassword = "OldPassword"

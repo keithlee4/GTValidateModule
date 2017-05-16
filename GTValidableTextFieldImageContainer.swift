@@ -16,11 +16,13 @@ final class GTValidableTextFieldImageContainer: GTValidableTextFieldContainer {
     
     override func handleError(reason: String) {
         print("Get error: \(reason)")
+        errLabel.isHidden = false
         errLabel.text = reason
     }
     
     override func handleSuccess() {
         print("success~~~~")
+        errLabel.isHidden = true
     }
     
     override func handleEditingUpdate(isEditing: Bool) {
