@@ -8,17 +8,23 @@
 
 import Foundation
 enum GTValidateModuleConstant: String {
+    
     case pwd = "Password"
     case confirmPassword = "ConfirmPassword"
+    case oldPwd = "OldPassword"
+    case oldLevel2Password = "OldLevel2Password"
+    case level2Password = "Level2Password"
+    case level2PasswordConfirm = "Level2PasswordConfirm"
+    
     case userID = "UserID"
     case email = "Email"
     case recommenderAccount = "RecommenderAccount"
     case settlerAccount = "SettlerAccount"
     case authCode = "AuthCode"
     case legSide = "LegSide"
+    
 //    case phoneNationCode = "PhoneNationCode"
 //    case phone = "Phone"
-//    case oldPassword = "OldPassword"
 //    case password = "Password"
 //    case country = "Country"
 //    case province = "Province"
@@ -43,9 +49,6 @@ enum GTValidateModuleConstant: String {
 //    case officeTel = "OfficeTel"
 //    case fax = "Fax"
 //    case nation = "Nation"
-//    case oldLevel2Password = "OldLevel2Password"
-//    case level2Password = "Level2Password"
-//    case level2PasswordConfirm = "Level2PasswordConfirm"
 //    case authCode = "AuthCode"
     
     var fieldKey : String {

@@ -1,16 +1,16 @@
 //
-//  GTValidableTextFieldImageContainer.swift
+//  GTValidableTextFieldVerticalAlignedContainer.swift
 //  Sun-iOS
 //
-//  Created by Keith Lee on 2017/5/14.
+//  Created by keith.lee on 2017/5/17.
 //  Copyright © 2017年 git4u.com. All rights reserved.
 //
 
 import UIKit
 
-final class GTValidableTextFieldImageContainer: GTValidableTextFieldContainer {
-
-    @IBOutlet weak var imgView: UIImageView!
+class GTValidableTextFieldVerticalAlignedContainer: GTValidableTextFieldContainer {
+    
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var sepLine: UIView!
     @IBOutlet weak var errLabel: UILabel!
     
@@ -23,6 +23,11 @@ final class GTValidableTextFieldImageContainer: GTValidableTextFieldContainer {
     override func handleSuccess() {
         print("success~~~~")
         errLabel.isHidden = true
+    }
+    
+    override func config(storage: GTValidableValueStorage) {
+        titleLabel.text = storage.validateInfo.name
+        super.config(storage: storage)
     }
     
     override func handleEditingUpdate(isEditing: Bool) {

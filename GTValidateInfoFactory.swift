@@ -163,4 +163,71 @@ class GTValueStorageFactory: NSObject {
         
         return storage(with: validStruct, defaultValue: value, containerType: containerType)
     }
+    
+    //MARK: - 密碼資訊、修改與重置
+    //MARK: lv2 pwd
+    static func lv2Pwd(defaultValue value: String? = nil, containerType: ContainerType = .textField) -> GTValidableValueStorage {
+        let validType = GTValidateModuleConstant.level2Password
+        let validStruct = GTValidateStruct.init(
+            fieldKey: validType.fieldKey,
+            name: moduleDefine.name(for: validType),
+            placeHolder: moduleDefine.placeholder(for: validType),
+            regex: moduleDefine.regex(for: validType),
+            keyboard: GTKeyboardType.basic,
+            isSecured: false,
+            isNullable: false
+        )
+        
+        return storage(with: validStruct, defaultValue: value, containerType: containerType)
+    }
+    
+    //MARK: old lv2 pwd
+    static func oldLv2Pwd(defaultValue value: String? = nil, containerType: ContainerType = .textField) -> GTValidableValueStorage {
+        let validType = GTValidateModuleConstant.oldLevel2Password
+        let validStruct = GTValidateStruct.init(
+            fieldKey: validType.fieldKey,
+            name: moduleDefine.name(for: validType),
+            placeHolder: moduleDefine.placeholder(for: validType),
+            regex: moduleDefine.regex(for: validType),
+            keyboard: GTKeyboardType.basic,
+            isSecured: false,
+            isNullable: false
+        )
+        
+        return storage(with: validStruct, defaultValue: value, containerType: containerType)
+    }
+    
+    //MARK: confirm lv2 pwd
+    static func confirmLv2Pwd(defaultValue value: String? = nil, containerType: ContainerType = .textField) -> GTValidableValueStorage {
+        let validType = GTValidateModuleConstant.level2PasswordConfirm
+        let validStruct = GTValidateStruct.init(
+            fieldKey: validType.fieldKey,
+            name: moduleDefine.name(for: validType),
+            placeHolder: moduleDefine.placeholder(for: validType),
+            regex: moduleDefine.regex(for: validType),
+            keyboard: GTKeyboardType.basic,
+            isSecured: false,
+            isNullable: false
+        )
+        
+        return storage(with: validStruct, defaultValue: value, containerType: containerType)
+    }
+
+
+    //MARK: old pwd
+    static func oldPwd(defaultValue value: String? = nil, containerType: ContainerType = .textField) -> GTValidableValueStorage {
+        let validType = GTValidateModuleConstant.oldPwd
+        let validStruct = GTValidateStruct.init(
+            fieldKey: validType.fieldKey,
+            name: moduleDefine.name(for: validType),
+            placeHolder: moduleDefine.placeholder(for: validType),
+            regex: moduleDefine.regex(for: validType),
+            keyboard: GTKeyboardType.basic,
+            isSecured: false,
+            isNullable: false
+        )
+        
+        return storage(with: validStruct, defaultValue: value, containerType: containerType)
+    }
+    
 }
